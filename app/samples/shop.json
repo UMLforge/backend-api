@@ -1,0 +1,173 @@
+{
+  "title": "Shop",
+  "problem": "E-commerce Order System: Customers place Orders containing OrderItems that reference Products. Payments are processed per Order via CreditCard or PayPal. Shipments track delivery of Orders. Admins manage the Product catalog and discount Coupons.",
+  "classes": [
+    {
+      "name": "Customer",
+      "type": "class",
+      "x": 288,
+      "y": 191,
+      "attrs": [
+        "- customerId: ID",
+        "- name: String",
+        "- email: String"
+      ],
+      "methods": [
+        "+ placeOrder(): Order"
+      ]
+    },
+    {
+      "name": "Order",
+      "type": "class",
+      "x": 680,
+      "y": 191,
+      "attrs": [
+        "- orderId: ID",
+        "- status: Status",
+        "- total: Money"
+      ],
+      "methods": [
+        "+ addItem(p: Product): void",
+        "+ pay(p: Payment): void"
+      ]
+    },
+    {
+      "name": "OrderItem",
+      "type": "class",
+      "x": 1072,
+      "y": 191,
+      "attrs": [
+        "- qty: int",
+        "- unitPrice: Money"
+      ],
+      "methods": [
+        "+ lineTotal(): Money"
+      ]
+    },
+    {
+      "name": "Product",
+      "type": "class",
+      "x": 1072,
+      "y": 516,
+      "attrs": [
+        "- sku: String",
+        "- name: String",
+        "- price: Money",
+        "- stock: int"
+      ],
+      "methods": [
+        "+ inStock(): bool"
+      ]
+    },
+    {
+      "name": "Payment",
+      "type": "abstract",
+      "x": 680,
+      "y": 529,
+      "attrs": [
+        "# amount: Money",
+        "# method: String"
+      ],
+      "methods": [
+        "+ authorize(): bool",
+        "+ capture(): void"
+      ]
+    },
+    {
+      "name": "CreditCard",
+      "type": "class",
+      "x": 288,
+      "y": 542,
+      "attrs": [
+        "- last4: String"
+      ],
+      "methods": [
+        "+ authorize(): bool"
+      ]
+    },
+    {
+      "name": "Shipment",
+      "type": "class",
+      "x": 288,
+      "y": 802,
+      "attrs": [
+        "- trackingId: String",
+        "- status: String"
+      ],
+      "methods": [
+        "+ ship(): void",
+        "+ track(): Status"
+      ]
+    },
+    {
+      "name": "Admin",
+      "type": "class",
+      "x": 1072,
+      "y": 802,
+      "attrs": [
+        "- adminId: ID"
+      ],
+      "methods": [
+        "+ addProduct(p: Product): void"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "type": "composition",
+      "from": "Order",
+      "to": "OrderItem",
+      "label": "contains",
+      "multA": "1",
+      "multB": "1..*"
+    },
+    {
+      "type": "association",
+      "from": "OrderItem",
+      "to": "Product",
+      "label": "references",
+      "multA": "*",
+      "multB": "1"
+    },
+    {
+      "type": "association",
+      "from": "Customer",
+      "to": "Order",
+      "label": "places",
+      "multA": "1",
+      "multB": "0..*"
+    },
+    {
+      "type": "association",
+      "from": "Order",
+      "to": "Payment",
+      "label": "paid by",
+      "multA": "1",
+      "multB": "1"
+    },
+    {
+      "type": "inheritance",
+      "from": "CreditCard",
+      "to": "Payment",
+      "label": "",
+      "multA": "",
+      "multB": ""
+    },
+    {
+      "type": "association",
+      "from": "Order",
+      "to": "Shipment",
+      "label": "fulfilled by",
+      "multA": "1",
+      "multB": "0..*"
+    },
+    {
+      "type": "association",
+      "from": "Admin",
+      "to": "Product",
+      "label": "manages",
+      "multA": "",
+      "multB": ""
+    }
+  ]
+}

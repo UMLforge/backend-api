@@ -1,0 +1,201 @@
+{
+  "title": "Hospital",
+  "problem": "Hospital Management System: Patients book Appointments with Doctors. Each Doctor belongs to a Department. Prescriptions link Doctors to Patients with Medicines. Nurses assist Doctors, and Receptionists schedule Appointments. MedicalRecords store visit history per Patient.",
+  "classes": [
+    {
+      "name": "Patient",
+      "type": "class",
+      "x": 288,
+      "y": 204,
+      "attrs": [
+        "- patientId: ID",
+        "- name: String",
+        "- dob: Date"
+      ],
+      "methods": [
+        "+ book(d: Doctor, at: DateTime): Appointment"
+      ]
+    },
+    {
+      "name": "Appointment",
+      "type": "class",
+      "x": 694,
+      "y": 204,
+      "attrs": [
+        "- at: DateTime",
+        "- status: Status"
+      ],
+      "methods": [
+        "+ cancel(): void",
+        "+ reschedule(at: DateTime): void"
+      ]
+    },
+    {
+      "name": "Doctor",
+      "type": "class",
+      "x": 1100,
+      "y": 204,
+      "attrs": [
+        "- doctorId: ID",
+        "- name: String",
+        "- specialty: String"
+      ],
+      "methods": [
+        "+ prescribe(p: Patient): Prescription"
+      ]
+    },
+    {
+      "name": "Department",
+      "type": "class",
+      "x": 1100,
+      "y": 529,
+      "attrs": [
+        "- name: String",
+        "- floor: int"
+      ],
+      "methods": [
+        "+ listDoctors(): Doctor[]"
+      ]
+    },
+    {
+      "name": "Prescription",
+      "type": "class",
+      "x": 694,
+      "y": 529,
+      "attrs": [
+        "- issuedAt: Date",
+        "- notes: String"
+      ],
+      "methods": [
+        "+ addMedicine(m: Medicine): void"
+      ]
+    },
+    {
+      "name": "Medicine",
+      "type": "class",
+      "x": 694,
+      "y": 828,
+      "attrs": [
+        "- code: String",
+        "- name: String",
+        "- dosage: String"
+      ],
+      "methods": [
+        "+ isControlled(): bool"
+      ]
+    },
+    {
+      "name": "MedicalRecord",
+      "type": "class",
+      "x": 288,
+      "y": 529,
+      "attrs": [
+        "- createdAt: Date",
+        "- summary: String"
+      ],
+      "methods": [
+        "+ addVisit(a: Appointment): void"
+      ]
+    },
+    {
+      "name": "Nurse",
+      "type": "class",
+      "x": 1492,
+      "y": 204,
+      "attrs": [
+        "- staffId: ID",
+        "- name: String"
+      ],
+      "methods": [
+        "+ assist(d: Doctor): void"
+      ]
+    },
+    {
+      "name": "Receptionist",
+      "type": "class",
+      "x": 288,
+      "y": 828,
+      "attrs": [
+        "- staffId: ID",
+        "- name: String"
+      ],
+      "methods": [
+        "+ schedule(p: Patient, d: Doctor): Appointment"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "type": "association",
+      "from": "Patient",
+      "to": "Appointment",
+      "label": "books",
+      "multA": "1",
+      "multB": "0..*"
+    },
+    {
+      "type": "association",
+      "from": "Appointment",
+      "to": "Doctor",
+      "label": "with",
+      "multA": "0..*",
+      "multB": "1"
+    },
+    {
+      "type": "aggregation",
+      "from": "Department",
+      "to": "Doctor",
+      "label": "employs",
+      "multA": "1",
+      "multB": "1..*"
+    },
+    {
+      "type": "association",
+      "from": "Doctor",
+      "to": "Prescription",
+      "label": "writes",
+      "multA": "1",
+      "multB": "0..*"
+    },
+    {
+      "type": "association",
+      "from": "Prescription",
+      "to": "Medicine",
+      "label": "lists",
+      "multA": "*",
+      "multB": "1..*"
+    },
+    {
+      "type": "composition",
+      "from": "Patient",
+      "to": "MedicalRecord",
+      "label": "owns",
+      "multA": "1",
+      "multB": "0..*"
+    },
+    {
+      "type": "association",
+      "from": "Nurse",
+      "to": "Doctor",
+      "label": "assists",
+      "multA": "*",
+      "multB": "*"
+    },
+    {
+      "type": "dependency",
+      "from": "Receptionist",
+      "to": "Appointment",
+      "label": "schedules",
+      "multA": "",
+      "multB": ""
+    },
+    {
+      "type": "association",
+      "from": "Prescription",
+      "to": "Patient",
+      "label": "for",
+      "multA": "0..*",
+      "multB": "1"
+    }
+  ]
+}

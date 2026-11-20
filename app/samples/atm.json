@@ -1,0 +1,151 @@
+{
+  "title": "ATM",
+  "problem": "ATM Banking System: Customers use Cards at ATMs to perform Transactions (Withdrawal, Deposit, Transfer, BalanceInquiry). Each Account (Savings, Checking) belongs to a Customer. The Bank manages Accounts, Cards and ATMs, and logs every Transaction with timestamp and status.",
+  "classes": [
+    {
+      "name": "Customer",
+      "type": "class",
+      "x": 274,
+      "y": 204,
+      "attrs": [
+        "- customerId: ID",
+        "- name: String",
+        "- pin: String"
+      ],
+      "methods": [
+        "+ authenticate(pin): bool"
+      ]
+    },
+    {
+      "name": "Account",
+      "type": "abstract",
+      "x": 680,
+      "y": 204,
+      "attrs": [
+        "# accountNo: String",
+        "# balance: Money"
+      ],
+      "methods": [
+        "+ deposit(m: Money): void",
+        "+ withdraw(m: Money): bool"
+      ]
+    },
+    {
+      "name": "SavingsAccount",
+      "type": "class",
+      "x": 274,
+      "y": 542,
+      "attrs": [
+        "- interestRate: double"
+      ],
+      "methods": [
+        "+ applyInterest(): void"
+      ]
+    },
+    {
+      "name": "CheckingAccount",
+      "type": "class",
+      "x": 680,
+      "y": 542,
+      "attrs": [
+        "- overdraftLimit: Money"
+      ],
+      "methods": [
+        "+ withdraw(m: Money): bool"
+      ]
+    },
+    {
+      "name": "Transaction",
+      "type": "class",
+      "x": 1086,
+      "y": 204,
+      "attrs": [
+        "- txnId: ID",
+        "- kind: String",
+        "- amount: Money",
+        "- at: DateTime",
+        "- status: String"
+      ],
+      "methods": [
+        "+ execute(): bool"
+      ]
+    },
+    {
+      "name": "Card",
+      "type": "class",
+      "x": 1086,
+      "y": 542,
+      "attrs": [
+        "- cardNo: String",
+        "- expiry: Date"
+      ],
+      "methods": [
+        "+ isValid(): bool"
+      ]
+    },
+    {
+      "name": "ATM",
+      "type": "class",
+      "x": 1492,
+      "y": 542,
+      "attrs": [
+        "- atmId: ID",
+        "- location: String",
+        "- cashOnHand: Money"
+      ],
+      "methods": [
+        "+ dispense(m: Money): void"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "type": "association",
+      "from": "Customer",
+      "to": "Account",
+      "label": "owns",
+      "multA": "1",
+      "multB": "1..*"
+    },
+    {
+      "type": "inheritance",
+      "from": "SavingsAccount",
+      "to": "Account",
+      "label": "",
+      "multA": "",
+      "multB": ""
+    },
+    {
+      "type": "inheritance",
+      "from": "CheckingAccount",
+      "to": "Account",
+      "label": "",
+      "multA": "",
+      "multB": ""
+    },
+    {
+      "type": "association",
+      "from": "Transaction",
+      "to": "Account",
+      "label": "against",
+      "multA": "*",
+      "multB": "1"
+    },
+    {
+      "type": "association",
+      "from": "Customer",
+      "to": "Card",
+      "label": "holds",
+      "multA": "1",
+      "multB": "1..*"
+    },
+    {
+      "type": "association",
+      "from": "ATM",
+      "to": "Transaction",
+      "label": "processes",
+      "multA": "1",
+      "multB": "*"
+    }
+  ]
+}

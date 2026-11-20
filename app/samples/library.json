@@ -1,0 +1,139 @@
+{
+  "title": "Library",
+  "problem": "Library Management System: Members can borrow Books. Each Book has multiple Copies. A Loan links one Member to one Copy with borrowDate, dueDate and returnDate. Librarians manage Members, Books and Loans. Members have membership tiers with different loan limits and fines for overdue returns.",
+  "classes": [
+    {
+      "name": "Book",
+      "type": "class",
+      "x": 332,
+      "y": 204,
+      "attrs": [
+        "- isbn: String",
+        "- title: String",
+        "- author: String"
+      ],
+      "methods": [
+        "+ reserve(): bool"
+      ]
+    },
+    {
+      "name": "Copy",
+      "type": "class",
+      "x": 709,
+      "y": 204,
+      "attrs": [
+        "- barcode: String",
+        "- condition: String"
+      ],
+      "methods": [
+        "+ isAvailable(): bool"
+      ]
+    },
+    {
+      "name": "Member",
+      "type": "class",
+      "x": 332,
+      "y": 529,
+      "attrs": [
+        "- memberId: ID",
+        "- name: String",
+        "- tier: Tier"
+      ],
+      "methods": [
+        "+ borrow(c: Copy): Loan",
+        "+ payFine(): void"
+      ]
+    },
+    {
+      "name": "Loan",
+      "type": "class",
+      "x": 709,
+      "y": 529,
+      "attrs": [
+        "- borrowDate: Date",
+        "- dueDate: Date",
+        "- returnDate: Date"
+      ],
+      "methods": [
+        "+ isOverdue(): bool",
+        "+ fine(): Money"
+      ]
+    },
+    {
+      "name": "Librarian",
+      "type": "class",
+      "x": -90,
+      "y": 366,
+      "attrs": [
+        "- staffId: ID",
+        "- name: String"
+      ],
+      "methods": [
+        "+ addBook(b: Book): void",
+        "+ register(m: Member): void"
+      ]
+    },
+    {
+      "name": "Tier",
+      "type": "enum",
+      "x": 332,
+      "y": 854,
+      "attrs": [
+        "STANDARD",
+        "PREMIUM",
+        "STUDENT"
+      ],
+      "methods": []
+    }
+  ],
+  "edges": [
+    {
+      "type": "composition",
+      "from": "Book",
+      "to": "Copy",
+      "label": "has",
+      "multA": "1",
+      "multB": "1..*"
+    },
+    {
+      "type": "association",
+      "from": "Member",
+      "to": "Loan",
+      "label": "borrows",
+      "multA": "1",
+      "multB": "0..*"
+    },
+    {
+      "type": "association",
+      "from": "Loan",
+      "to": "Copy",
+      "label": "for",
+      "multA": "0..*",
+      "multB": "1"
+    },
+    {
+      "type": "association",
+      "from": "Librarian",
+      "to": "Book",
+      "label": "catalogs",
+      "multA": "",
+      "multB": ""
+    },
+    {
+      "type": "association",
+      "from": "Librarian",
+      "to": "Member",
+      "label": "manages",
+      "multA": "",
+      "multB": ""
+    },
+    {
+      "type": "association",
+      "from": "Member",
+      "to": "Tier",
+      "label": "has",
+      "multA": "1",
+      "multB": "1"
+    }
+  ]
+}
