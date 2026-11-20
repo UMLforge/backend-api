@@ -34,4 +34,14 @@ sys.path.insert(0, str(REPO))
 from a2wsgi import ASGIMiddleware  # noqa: E402
 from app.main import app  # noqa: E402
 
-application = ASGIMiddleware(app)
+# Build the wrapper on the first request, not at import: ASGIMiddleware starts an event-loop thread, and
+# uWSGI loads this file in its master process and then forks the worker. Threads don't survive a fork, so a
+# wrapper made at import would wait forever on a loop thread that doesn't exist in the worker.
+_wsgi_app = None
+
+
+def application(environ, start_response):
+    global _wsgi_app
+    if _wsgi_app is None:
+        _wsgi_app = ASGIMiddleware(app)
+    return _wsgi_app(environ, start_response)
